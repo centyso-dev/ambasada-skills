@@ -1,5 +1,6 @@
-# Astro, or any static page: pay.js (no backend)
+# A static page: pay.js (no backend)
 
+For plain HTML, Astro, a page built in Lovable, Bolt or v0, Carrd, anything that can include a script.
 pay.js is served by the village (`https://hackaton.ambasada.id/pay.js`; `ambasada dev` serves the same script at
 `http://127.0.0.1:8788/pay.js`, and it talks to whichever origin it was loaded from). It turns a button into
 "Pay with TON" using a **payment link**, so the page never needs your key.
@@ -11,7 +12,7 @@ ambasada links create --amount 3 --description "A coffee for the team" --success
 # → pl_… (or POST /v1/checkout/links with curl)
 ```
 
-2. On the page (`src/pages/index.astro` or plain HTML):
+2. On the page (plain HTML, `index.html`, or `src/pages/index.astro`):
 
 ```html
 <script src="https://hackaton.ambasada.id/pay.js" defer></script>
@@ -43,13 +44,15 @@ with `cancelled` or `closed`), and `await Village.session("cs_…")` → `{ stat
 purchase matters (a download, credits), send `e.detail.receipt` to a server or edge function and verify it:
 
 ```ts
-// e.g. an Astro endpoint src/pages/api/unlock.ts (output: "server"), or a Worker
-import { village } from "@ambasada/sdk";
-export const POST = async ({ request }: { request: Request }) => {
+// any fetch-style server route: the templates' /api/receipt, an Astro endpoint, a Worker
+import { village } from "@ambasada/sdk"; // reads process.env; on a Worker: createAmbasada({ env })
+export async function POST(request: Request) {
   const { receipt } = await request.json();
   const claims = await village.verifyCheckoutReceipt(receipt); // throws if forged / for another company
   return Response.json({ ok: true, amount: claims.amount });
-};
+}
 ```
 
-Or set up the `checkout.paid` webhook (see reference/checkout.md).
+Or set up the `checkout.paid` webhook ([reference/checkout.md](../reference/checkout.md)).
+
+Then tell the village where the page lives: `ambasada link https://your.page`.

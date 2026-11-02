@@ -30,8 +30,8 @@ await village.listings.put("translate", {
 ```
 
 Schema field types: `string`, `text`, `number`, `integer`, `boolean`, `object`, `array`, `json`,
-`image_url`, `file_url`; a trailing `?` makes a field optional. In the template, offerings live in
-`product/offerings.ts` and `ambasada offerings sync` pushes them.
+`image_url`, `file_url`; a trailing `?` makes a field optional. In a project, offerings live in the file
+that `ambasada.config.ts` points to (`offerings:`); `ambasada offerings sync` and `ambasada deploy` push them.
 
 ## Utilities
 

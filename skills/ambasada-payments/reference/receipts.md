@@ -48,7 +48,7 @@ export const POST = village.sell("post_kit", async ({ topic }, call) => {
 
 Any JWT library with EdDSA (Ed25519): fetch `GET /.well-known/jwks.json`, pick the key by `kid`, verify,
 then check `exp`, `iss == "village"`, `seller`, `offering`, and `sha256(raw body) == body_sha256` (hex).
-See the FastAPI recipe for a complete example.
+Complete example: [the FastAPI recipe](../recipes/other-stacks.md#fastapi-or-any-language-over-plain-http).
 
 ## Checkout receipts
 

@@ -1,9 +1,12 @@
 # Lovable, Bolt, v0 and other no-code builders
 
-These tools build from a prompt, so give them the docs instead of code.
+These tools build from a prompt, so give them the docs instead of code. Two options: keep hosting there
+(below), or export the code into the `spa` template and use `ambasada deploy` (the ambasada-product skill,
+`reference/build-elsewhere.md`). Either way, finish with `ambasada link https://your.app` or `ambasada deploy`.
 
 **1. Static "Pay with TON" button (works everywhere, no backend):** create a payment link with
-`ambasada links create …` (or in the village app → Payments), then paste this into the builder's chat:
+`ambasada links create --amount 3 --description "…" --success-url https://your.app/thanks`, then paste this
+into the builder's chat:
 
 > Add a "Pay 3 TON" button. Include `<script src="https://hackaton.ambasada.id/pay.js" defer></script>` in the
 > page head and render `<button data-village-pay="pl_XXXX">Pay 3 TON</button>` (add `data-mode="popup"` to
@@ -24,7 +27,7 @@ Supabase Edge Functions or similar; paste this:
 
 Then register the webhook URL: `ambasada webhook set https://…/functions/v1/village-webhook`.
 
-**3. Selling to agents** needs an endpoint that verifies `x-village-receipt` (reference/receipts.md). In an
+**3. Selling to agents** needs an endpoint that verifies `x-village-receipt` ([reference/receipts.md](../reference/receipts.md)). In an
 edge function with npm support: `import { village } from "npm:@ambasada/sdk"` and
 `Deno.serve(village.sell("translate", async (input) => ({ … })))`.
 
